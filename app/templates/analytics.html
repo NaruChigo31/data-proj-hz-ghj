@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Analytics</title>
+</head>
+<body>
+    <header>
+        <h1 class="logo">Rock <span style="color: #1ED760;">Spoti</span>-Stats</h1>
+        <div>
+            <a href="/">Main</a>
+            <a href="form">Feedback</a>
+            <a href="analytics">Analytics</a>
+            <a href="graphs">Graphs</a>
+            <a href="report">Report</a>
+        </div>
+    </header>
+    <main>
+
+        <div id="graph"></div>
+    
+        <div>
+            <h1>Suggestions for you</h1>
+            <p>{{ text }}</p>
+    
+            {% if hasData %}
+                    
+                {% for i in dbHead %}
+                    
+                <div>
+                    <img src="{{i.image_url}}" alt="">
+                    <div>
+                        <h2>{{i.track_name}}</h2>
+                        <p>{{i.artists}}</p>
+                        <p>{{i.album_name}}</p>
+                        <p>{{i.duration_mm_ss}}</p>
+                        <p>{{i.release_date}}</p>
+                        <a href="{{i.spotify_url}}">link</a>
+                    </div>
+                </div>
+                    
+                {% endfor %}
+            {% endif %}
+    
+        </div>
+
+    </main>
+
+</body>
+
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+    const db = getDatabase();
+
+    let dynamicGenresRatesMap = new Map();
+    let dynamicMeanMap = new Map();
+
+    const genres = ["alt-rock", "alternative","black-metal", "death-metal", "emo", "funk", "garage", "goth", "grindcore", "groove", "grunge", "hard-rock", "heavy-metal", "industrial", "j-rock", "metal", "metalcore", "psych-rock", "punk", "punk-rock", "rock", "rock-n-roll"]
+    
+    for (let i = 0; i < genres.length; i++) {
+        dynamicGenresRatesMap.set(`${genres[i]}Under`, []);
+        dynamicGenresRatesMap.set(`${genres[i]}Above`, []);
+    }
+
+    const Under18 = []
+    const ForGraphGenre = []
+    const Above18 = []
+
+    async function plotBarGraph(x, y1, y2) {        
+        let trace1 = {
+          x: await x,
+          y: await y1,
+          name: 'Under 18',
+          type: 'bar'
+        };
+        let trace2 = {
+          x: await x,
+          y: await y2,
+          name: 'Above 18',
+          type: 'bar'
+        };
+
+        let data = [trace1, trace2];
+        let layout = {barmode: 'group'};
+        Plotly.newPlot('graph', data, layout);
+    }
+
+    function GetAllData(){
+        get(child(ref(db), 'feedbacks'))
+        .then((snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                let ageText = "Under"
+                if (childSnapshot.val()["age"] == true) {
+                    ageText = "Above"
+                } 
+                dynamicGenresRatesMap.get(childSnapshot.val()["genre"] + ageText).push(childSnapshot.val()["rate"]);
+            });
+            dynamicGenresRatesMap.forEach((value, key) => {
+                dynamicMeanMap.set(key, value.reduce((a, b) => a + b, 0) / value.length);
+            });
+            dynamicMeanMap.forEach((value, key) => {
+                if (!ForGraphGenre.includes(key.slice(0, -5))){
+                    ForGraphGenre.push(key.slice(0, -5))
+                }
+                if (`${value}` != "NaN"){
+                    if (key.includes("Under")) {
+                        Under18.push(value)
+                    } else {
+                        Above18.push(value)
+                    }
+                } else{
+                    if (key.includes("Under")) {
+                        Under18.push(0)
+                    } else {
+                        Above18.push(0)
+                    }
+                }
+            });
+            plotBarGraph(ForGraphGenre, Under18, Above18); 
+        })
+        .catch((error) => {
+            alert('Error occured: ' + error);
+        });
+    }
+
+    let yourFeedback
+    async function GetYourFeedback(token){
+        console.log(token);
+        get(child(ref(db), 'feedbacks/' + await token))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                // console.log(snapshot.val());
+                yourFeedback = snapshot.val();
+                console.log(yourFeedback);
+            } else {
+                console.log("No data available");
+            }
+        })
+        .catch((error) => {
+            alert('Error occured: ' + error);
+        });
+    }
+
+    GetYourFeedback(localStorage.getItem('token'))
+    // GetYourFeedback(document.cookie.split(';')[1].split('=')[1])
+    window.onload = GetAllData();
+
+</script>
+
+</html>
