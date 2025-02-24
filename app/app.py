@@ -1,13 +1,24 @@
+'''
+
+This is the main file of the application.
+It is responsible for rendering the HTML templates and handling the user input for feedbacks.
+The application uses Flask to create a web server and serve the HTML templates.
+
+'''
+
 # import libraries
 from flask import Flask, render_template, request
 import json
 import pandas as pd
+import os
 
 # Get the dataset to work with
-dataFrame = pd.read_csv("../cleaned_and_parsed_dataset.csv")
+dataFrame = pd.read_csv(os.path.abspath("cleaned_and_parsed_dataset.csv"))
 dataFrame = dataFrame.rename(columns={"duration_mm/ss":"duration_mm_ss"})
 
 client_formData = None
+
+# Create the Flask app
 app = Flask(__name__)
 
 @app.route('/')
@@ -21,17 +32,25 @@ def form():
 
 @app.route("/analytics")
 def analytics():
+
+    # Create a response object
     analyticResponse = {
         "text": "You haven't rated any genre yet, please fill the form to get some suggestions!",
         "dbHead":None,
         "hasData": False
     }
+
+    # Check if the user has rated any genre
     if request.cookies.get('data') not in [None, ""]:
         analyticResponse['hasData'] = True
+
+        # Get the feedback from the cookie
         client_formData = json.loads(request.cookies.get('data'))
-        print(client_formData)
+
+        # Get the data for the genre the user rated
         dataToSuggest = dataFrame[dataFrame['track_genre'] == client_formData['music-genre']]
     
+        # get the mean rate for the genre
         meanRateByDataset = dataToSuggest['popularity'].mean()
 
         if client_formData["rate"]*10 < meanRateByDataset:

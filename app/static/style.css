@@ -1,37 +1,358 @@
+@import url('https://fonts.cdnfonts.com/css/post-no-bills-jaffna');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap');
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+:root{
+    --jaffna: 'Post No Bills Jaffna ExtraBold', sans-serif;
+    --paleRed: #C73D3D;
+    --white: #FCFCFC;
+    --red: #C10B0B;
+}
+/* .flexColumn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.flexRow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+h1, h2, h3, h4, h5, h6{
+    font-family: var(--jaffna);
 }
 
 body{
-    width: 100vw;
-    height: 100vh;
+    width: 98vw;
+    min-height: 100vh;
     background-color: #acacac;
-
-}
-main{
+    background-color: #140D0D;
     display: flex;
+    align-items: center;
+    justify-content: start;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap:10px
 }
 
-.graphAndInfoDiv{
-    width: 95vw;
-    background-color: #dfdfdf;
+header{
+    min-width: 800px;
+    width: 65%;
+    background-color: #000;
+    padding: 10px 50px;
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo{
+    font-family: var(--jaffna);
+    font-size: 40px;
+    color: var(--red);
+}
+
+header > div{
+    gap: 20px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap:10px
 }
 
-.forGraphs{
-    width: 60%;
+header > div > a{
+    font-family: var(--jaffna);
+    font-size: 24px;
+    color: var(--white);
 }
 
-article{
+main{
+    background-color: var(--white);
+    min-width: 800px;
+    width: 65%;
+    max-width: 1200px;
+    padding-bottom: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    gap: 10px;
+    min-height: calc(100vh - 80px);
+}
+
+.padding10{
+    padding: 10px;
+}
+
+/* ------------------------------------------ */
+/* ------------------------------------------ */
+/* -------------------MAIN------------------- */
+/* ------------------------------------------ */
+/* ------------------------------------------ */
+.letsRock{
+    background: url("letsRock.png");
+    width: 100%;
+    height: auto;
+    min-height: 500px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.letsRock > h1{
+    font-family: var(--jaffna);
+    font-size: 128px;
+    color: var(--white);
+}
+.letsRock > h1 > span{
+    color: var(--red);
+}
+
+
+section{
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px;
+}
+section > img{
     width: 40%;
-    gap: 5px;
+    height: auto;
+}
+section > article{
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.left, .left > p{
+    align-items: start;
+    text-align: start;
+    font-size: 20px;
+}
+.right, .right > p{
+    align-items: end;
+    text-align: end;
+    font-size: 20px;
+}
+
+.helpDiv{
+    background: url("rockHelp.png");
+    height: auto;
+    /* filter: grayscale(80%); */
+    /* min-height: 350px; */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.helpDiv > div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px;
+}
+
+.helpDiv > h1{
+    font-family: var(--jaffna);
+    color: var(--white);
+}
+
+.helpCard{
+    background: url("card.png");
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 260px;
+    height: 364px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    background-color: var(--paleRed);
+    border-radius: 5px;
+}
+.helpCard > p{
+    font-family: "Patrick Hand SC", serif;
+    font-size: 20px;
+    color: #FCF9F9;
+    width: 75%;
+    text-align: center;
+}
+
+.helpCardTitle{
+    background: url("cardHeader.png");
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px 10px 10px;
+}
+.helpCardTitle > h2{
+    font-family: var(--jaffna);
+    color: var(--red);
+}
+
+/* -------------------------------------------- */
+/* -------------------------------------------- */
+/* -------------------GRAPHS------------------- */
+/* -------------------------------------------- */
+/* -------------------------------------------- */
+
+.graphData{
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #C5C5C5;
+    padding: 10px;
+}
+.graphData > h1{
+    color: var(--red);
+}
+
+.graphAndInfo{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.forGraphs > div{
+    width: 40vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* --------------------------------------------- */
+/* --------------------------------------------- */
+/* ------------------Analytics------------------ */
+/* --------------------------------------------- */
+/* --------------------------------------------- */
+
+#graph{
+    width: 100%
+}
+
+.feedbackAndSuggestions{
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px;
+    background-color: #C5C5C5;
+}
+.yourFeedback{
+    width: 40%;
+}
+.musicSuggestions{
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.suggestionCard{
+    width: 100%;
+    display: flex; 
+    align-items: start;
+    justify-content: start;
+    flex-direction: row;
+    gap: 20px;
+    width: 49%;
+    padding: 10px;
+    border: 1px solid #000;
+}
+.suggestionCard > img{
+    width: 200px;
+    height: 200px;
+}
+
+/* --------------------------------------------- */
+/* --------------------------------------------- */
+/* ------------------Analytics------------------ */
+/* --------------------------------------------- */
+/* --------------------------------------------- */
+
+.feedbackMain{
+
+    background: url("form_bg.jpg");
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-position: center; */
+}
+
+.feedbackLeft{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background-color: #C5C5C5;
+}
+
+form{
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+input[type="submit"]{
+    background-color: #140D0D;
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    font-family: var(--jaffna);
+}
+
+label{
+    font-size: 24px;
 }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />   <!--It is necessary to use the UTF-8 encoding with plotly graphics to get e.g. negative signs to render correctly -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+    <header>
+        <h1 class="logo">Rock <span style="color: #1ED760;">Spoti</span>-Stats</h1>
+        <div>
+            <a href="/">Main</a>
+            <a href="form">Feedback</a>
+            <a href="analytics">Analytics</a>
+            <a href="graphs">Graphs</a>
+            <a href="report">Report</a>
+        </div>
+    </header>
+
+    <main class="padding10">
+        <div class="graphData">
+            <h1>My Data Graphs</h1>
+            <p>Here I am showing the work I’ve done with my dataset with brief description of what the graphs are showing and what you may get from this analysis</p>
+            <p>All the analysis are taken from spotify dataset I took here - <a href="https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset/blob/main/dataset.csv">link</a> </p>
+        </div>
+        <h1>Avarage popularity by Genre</h1>
+        <section class="graphAndInfo">
+            <div class="forGraphs">
+                {{ fig1 }}
+            </div>
+            <div class="description">
+                <h2>description</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, cumque quibusdam animi saepe culpa sed soluta commodi inventore. Laborum obcaecati facere non sequi et aliquam quam ad architecto a perferendis placeat possimus harum commodi assumenda enim voluptatum eaque, quisquam quas quis, sed deserunt fugiat quia aliquid! Quam esse dolorem temporibus dolor exercitationem. Pariatur voluptatem quo optio unde laboriosam, rerum quam totam impedit sequi atque veritatis repellat expedita iusto repudiandae eius error modi? Itaque sed consectetur sapiente laudantium adipisci, magnam, reiciendis ut hic ipsam molestiae, mollitia architecto iure fugit. Ullam quaerat odio ex quisquam provident exercitationem nobis corporis cumque magnam debitis.</p>
+            </div>
+        </section>
+        <h1>Avarage popularity by Genre</h1>
+        <section class="graphAndInfo">
+            <div class="forGraphs">
+                {{ fig2 }}
+            </div>
+            <div class="description">
+                <h2>description</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, cumque quibusdam animi saepe culpa sed soluta commodi inventore. Laborum obcaecati facere non sequi et aliquam quam ad architecto a perferendis placeat possimus harum commodi assumenda enim voluptatum eaque, quisquam quas quis, sed deserunt fugiat quia aliquid! Quam esse dolorem temporibus dolor exercitationem. Pariatur voluptatem quo optio unde laboriosam, rerum quam totam impedit sequi atque veritatis repellat expedita iusto repudiandae eius error modi? Itaque sed consectetur sapiente laudantium adipisci, magnam, reiciendis ut hic ipsam molestiae, mollitia architecto iure fugit. Ullam quaerat odio ex quisquam provident exercitationem nobis corporis cumque magnam debitis.</p>
+            </div>
+        </section>
+        <h1>Avarage popularity of explicit and non-explicit songs</h1>
+        <section class="graphAndInfo">
+            <div class="forGraphs">
+                {{ fig3 }}
+            </div>
+            <div class="description">
+                <h2>description</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, cumque quibusdam animi saepe culpa sed soluta commodi inventore. Laborum obcaecati facere non sequi et aliquam quam ad architecto a perferendis placeat possimus harum commodi assumenda enim voluptatum eaque, quisquam quas quis, sed deserunt fugiat quia aliquid! Quam esse dolorem temporibus dolor exercitationem. Pariatur voluptatem quo optio unde laboriosam, rerum quam totam impedit sequi atque veritatis repellat expedita iusto repudiandae eius error modi? Itaque sed consectetur sapiente laudantium adipisci, magnam, reiciendis ut hic ipsam molestiae, mollitia architecto iure fugit. Ullam quaerat odio ex quisquam provident exercitationem nobis corporis cumque magnam debitis.</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
