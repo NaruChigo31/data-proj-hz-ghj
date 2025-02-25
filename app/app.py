@@ -48,42 +48,41 @@ def analytics():
         client_formData = json.loads(request.cookies.get('data'))
 
 
-        tagsToGroup = []
-        tagsDirection = []
-        print(client_formData["tag"])
+        tagsToGroup = ["energy", "tempo", "danceability"]
+        tagsDirection = [False, False, False]
 
         for i in client_formData["tag"]:
             if i == "energetic":
-                tagsToGroup.append("energy")
-                tagsDirection.append(True)
-            elif i == "melancholic":
-                tagsToGroup.append("tempo")
-                tagsDirection.append(False)
-            elif i == "cozy":
-                tagsToGroup.append("danceability")
-                tagsDirection.append(False)
+                tagsDirection[0] = (True)
+            elif i == "happy":
+                tagsDirection[1] = (True)
+            elif i == "active":
+                tagsDirection[2] = (True)
 
         # Get the data for the genre the user rated
         dataToSuggest = dataFrame[dataFrame['track_genre'] == client_formData['music-genre']]
-        dataToSuggest = dataToSuggest.sort_values(by=tagsToGroup, ascending=tagsDirection)
         # get the mean rate for the genre
         meanRateByDataset = dataToSuggest['popularity'].mean()
 
         analyticResponse['text'] += f" Your rate for this genre is {client_formData['rate']*10} and the mean rate for this genre is {meanRateByDataset:.2f}"
 
+        tagsToGroup.append("popularity")
+
         if client_formData["rate"]*10 < meanRateByDataset:
+            tagsDirection.append(False)
             analyticResponse['text'] += "\n\nYour rate for this genre is lower than mean value of popularity in dataset, maybe you would like to check out the most popular songs from it to change your opinion?"
-            analyticResponse['dbHead'] = dataToSuggest.sort_values(by='popularity', ascending=False).head(5)
+            analyticResponse['dbHead'] = dataToSuggest.sort_values(by=tagsToGroup, ascending=tagsDirection).head(5)
+            analyticResponse['text'] += f"\n\nAlso this suggestion is based on your tags: {', '.join(client_formData['tag'])}."
         else:
             if client_formData["rate"]*10 > 80:
+                tagsDirection.append(True)
                 analyticResponse['text'] += "\n\nYour rate for this genre is quite high, maybe you would like to check out the least popular songs from it, you may like them too!"
-                analyticResponse['dbHead'] = dataToSuggest.sort_values(by='popularity', ascending=True).head(5)
+                analyticResponse['dbHead'] = dataToSuggest.sort_values(by=tagsToGroup, ascending=tagsDirection).head(5)
+                analyticResponse['text'] += f"\n\nAlso this suggestion is based on your tags: {','.join(client_formData['tag'])}."
             else:
                 analyticResponse['text'] += "\n\nYour rate for this genre is mid by the dataset, here are some random songs from this genre you may like!"
                 analyticResponse['dbHead'] = dataToSuggest.sample(n=5)
         
-        analyticResponse['text'] += f"\n\nAlso this suggestion is based on your tags: {','.join(client_formData['tag'])}."
-
         analyticResponse['dbHead'] = analyticResponse['dbHead'].to_dict('records')
         # for i in analyticResponse['dbHead'].to_dict('records'):
         #     print(i)

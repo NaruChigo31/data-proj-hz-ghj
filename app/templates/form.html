@@ -24,7 +24,7 @@
             <p>Please leave your feedback on one of the genres available below to get recommendations from our website based on dataset information.</p>
         </div>
         <form action="/analytics" method="POST">
-            <label for="music-genre">Choose genre</label>
+            <label class="formText" for="music-genre">Choose genre</label>
             <select name="music-genre" id="music-genre">
                 <option value="alt-rock">Alt Rock</option>
                 <option value="alternative">Alternative</option>
@@ -49,38 +49,77 @@
                 <option value="rock">Rock</option>
                 <option value="rock-n-roll">Rock-n-Roll</option>
             </select>
-
-            <!-- <br> -->
     
-            <label for="rate">Rate this genre from 1 to 10(float can be chosen)</label>
-            <input type="number" id="rate" name="rate" max="10" min="0" step="0.1" required>
-            <!-- <br> -->
-            
+            <label class="formText" for="rate">Rate this genre from 1 to 10(float can be chosen)</label>
+            <input type="number" id="rate" name="rate" max="10" min="0" step="0.1" required>    
     
-            <p>Are you already 18?</p>
+            <p class="formText">Are you already 18?</p>
             <div>
                 <input type="radio" id="yes" name="age" value=true placeholder="yes" required>
                 <label for="yes">yes</label>
                 <input type="radio" id="no" name="age" value=false placeholder="no" required>
                 <label for="yes">no</label>
             </div>
-            <!-- <br> -->
     
-            <p>Choose tags that may describe this genre</p>
-            <div>
+            <p class="formText">Choose tags for your recommendation for this genre</p>
+            <table class="tagsTable">
+                <tr>
+                    <td>
+                        <input type="radio" id="energetic" name="tag1" value="energetic">
+                        <label for="energetic">energetic</label>
+                    </td>
+                    <td>or</td>
+                    <td>
+                        <input type="radio" id="energetic" name="tag1" value="cozy">
+                        <label for="energetic">cozy</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" id="melancholic" name="tag2" value="happy">
+                        <label for="melancholic">happy</label>
+                    </td>
+                    <td>or</td>
+                    <td>
+                        <input type="radio" id="melancholic" name="tag2" value="melancholic">
+                        <label for="melancholic">melancholic</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" id="cozy" name="tag3" value="active">
+                        <label for="cozy">active</label>
+                    </td>
+                    <td>or</td>
+                    <td>
+                        <input type="radio" id="cozy" name="tag3" value="passive">
+                        <label for="cozy">passive</label>
+                    </td>
+                </tr>
                 <!-- <input type="checkbox" id="loud" name="tag" value="loud">
                 <label for="loud">Loud</label> -->
                 <!-- <br> -->
-                <input type="checkbox" id="energetic" name="tag" value="energetic">
+                <!-- <input type="radio" id="energetic" name="tag1" value="energetic">
                 <label for="energetic">energetic</label>
-                <!-- <br> -->
-                <input type="checkbox" id="melancholic" name="tag" value="melancholic">
+                <span class="divisor">or</span>
+                <input type="radio" id="energetic" name="tag1" value="cozy">
+                <label for="energetic">cozy</label>
+                <br>
+
+                <input type="radio" id="melancholic" name="tag2" value="happy">
+                <label for="melancholic">happy</label>
+                <span class="divisor">or</span>
+                <input type="radio" id="melancholic" name="tag2" value="melancholic">
                 <label for="melancholic">melancholic</label>
+                <br>
+
+                <input type="radio" id="cozy" name="tag3" value="active">
+                <label for="cozy">active</label>
+                <span class="divisor">or</span>
+                <input type="radio" id="cozy" name="tag3" value="passive">
+                <label for="cozy">passive</label> -->
                 <!-- <br> -->
-                <input type="checkbox" id="cozy" name="tag" value="cozy">
-                <label for="cozy">cozy</label>
-                <!-- <br> -->
-            </div>
+            </table>
             <input type="submit" value="Submit">
         </form>
     </main>
@@ -96,7 +135,7 @@
 
     // Your web app's Firebase configuration
     const firebaseConfig = {
-
+        
     };
 
     // Initialize Firebase
@@ -108,6 +147,7 @@
     console.log(db);
 
     function PushData(data, apikey){
+        console.log(data, apikey);
         set(ref(db, 'feedbacks/' + apikey), {
             genre: data['music-genre'],
             rate: data['rate'],
@@ -128,15 +168,15 @@
         const data = {};
         let tags = []
         for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-            if (key=="tag"){
+            // console.log(key, value);
+            if (key=="tag1" || key=="tag2" || key=="tag3"){
                 tags.push(value)
-                data[key] = tags
+                data["tag"] = tags
             } else{
                 data[key] = parseFloat(value) ? parseFloat(value) : ((value === 'true' || value === 'false') ? ((value === 'true') ? value=true : value=false) : value);
             }
         }
-        console.log(data);
+        // console.log(data);
         let apikey = uuidv4()
         PushData(data, apikey);
         localStorage.setItem("token", apikey);

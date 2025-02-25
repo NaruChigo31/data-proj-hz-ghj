@@ -354,5 +354,17 @@ input[type="submit"]{
 }
 
 label{
+    font-size: 18px;
+}
+
+.formText{
     font-size: 24px;
+}
+
+.divisor{
+    padding: 0px 20px;
+}
+
+.tagsTable td{
+    padding: 10px;
 }

@@ -109,7 +109,8 @@ def graph_most_pop_genre_year(data, show=False):
         mode = 'lines+markers',
         line=dict(color='black', width=2),
         marker=dict(symbol='circle', size=8, color='black'),
-        name = "Popularity Trend"
+        name = "Popularity Trend",
+        hoverinfo='skip'
     ))
 
     # Add colored dots for each year based on genre
