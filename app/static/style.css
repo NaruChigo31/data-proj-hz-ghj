@@ -240,22 +240,22 @@ section > article{
     color: var(--red);
 }
 
-.graphAndInfo{
+/* .graphAndInfo{
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
-}
-
+} */
+/* 
 .forGraphs > div{
     width: 40vw;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-}
+} */
 
 /* --------------------------------------------- */
 /* --------------------------------------------- */

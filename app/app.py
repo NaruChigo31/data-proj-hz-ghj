@@ -4,6 +4,12 @@ This is the main file of the application.
 It is responsible for rendering the HTML templates and handling the user input for feedbacks.
 The application uses Flask to create a web server and serve the HTML templates.
 
+Also here is the logic for the analytics page, where the user can see the suggestions based on the feedbacks he gave.
+I am getting the feedbacks from the cookies, and then I am checking if the user has rated any genre.
+
+If the user has rated any genre, I am getting the data for the genre he rated and recommending him some songs based on his feedback.
+The suggestions are based on the mean rate for the genre in the dataset and the tags he gave to the genre.
+
 '''
 
 # import libraries
@@ -35,7 +41,7 @@ def analytics():
 
     # Create a response object
     analyticResponse = {
-        "text": "You haven't rated any genre yet, please fill the form to get some suggestions!",
+        "text": "",
         "dbHead":None,
         "hasData": False
     }
@@ -48,16 +54,22 @@ def analytics():
         client_formData = json.loads(request.cookies.get('data'))
 
 
-        tagsToGroup = ["energy", "tempo", "danceability"]
-        tagsDirection = [False, False, False]
+        tagsToGroup = ["energy", "liveness", "danceability", "tempo", "loudness", "speechness"]
+        tagsDirection = [False, False, False, False, False, False]
 
         for i in client_formData["tag"]:
             if i == "energetic":
-                tagsDirection[0] = (True)
+                tagsDirection[0] = True
             elif i == "happy":
-                tagsDirection[1] = (True)
+                tagsDirection[1] = True
             elif i == "active":
-                tagsDirection[2] = (True)
+                tagsDirection[2] = True
+            elif i == "fast":
+                tagsDirection[3] = True
+            elif i == "loud":
+                tagsDirection[4] = True
+            elif i == "lyrical":
+                tagsDirection[5] = True
 
         # Get the data for the genre the user rated
         dataToSuggest = dataFrame[dataFrame['track_genre'] == client_formData['music-genre']]
@@ -86,6 +98,8 @@ def analytics():
         analyticResponse['dbHead'] = analyticResponse['dbHead'].to_dict('records')
         # for i in analyticResponse['dbHead'].to_dict('records'):
         #     print(i)
+    else:
+        analyticResponse['text'] = "You haven't rated any genre yet, please fill the form to get some suggestions!"
     return render_template('analytics.html', **analyticResponse)
 
 @app.route("/graphs")

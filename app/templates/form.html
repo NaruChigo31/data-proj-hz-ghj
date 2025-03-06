@@ -26,7 +26,6 @@
         <form action="/analytics" method="POST">
             <label class="formText" for="music-genre">Choose genre</label>
             <select name="music-genre" id="music-genre">
-                <option value="alt-rock">Alt Rock</option>
                 <option value="alternative">Alternative</option>
                 <option value="black-metal">Black Metal</option>
                 <option value="death-metal">Death Metal</option>
@@ -96,6 +95,42 @@
                         <label for="cozy">passive</label>
                     </td>
                 </tr>
+
+                <tr>
+                    <td>
+                        <input type="radio" id="tempo" name="tag4" value="fast">
+                        <label for="energetic">fast</label>
+                    </td>
+                    <td>or</td>
+                    <td>
+                        <input type="radio" id="tempo" name="tag4" value="slow">
+                        <label for="energetic">slow</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="radio" id="loudness" name="tag5" value="loud">
+                        <label for="energetic">loud</label>
+                    </td>
+                    <td>or</td>
+                    <td>
+                        <input type="radio" id="loudness" name="tag5" value="quite">
+                        <label for="energetic">quite</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="radio" id="speechness" name="tag6" value="lyrical">
+                        <label for="energetic">lyrical</label>
+                    </td>
+                    <td>or</td>
+                    <td>
+                        <input type="radio" id="speechness" name="tag6" value="Instrumental">
+                        <label for="energetic">Instrumental</label>
+                    </td>
+                </tr>
                 <!-- <input type="checkbox" id="loud" name="tag" value="loud">
                 <label for="loud">Loud</label> -->
                 <!-- <br> -->
@@ -135,7 +170,7 @@
 
     // Your web app's Firebase configuration
     const firebaseConfig = {
-        
+
     };
 
     // Initialize Firebase
@@ -169,7 +204,7 @@
         let tags = []
         for (let [key, value] of formData.entries()) {
             // console.log(key, value);
-            if (key=="tag1" || key=="tag2" || key=="tag3"){
+            if (key.includes("tag")){
                 tags.push(value)
                 data["tag"] = tags
             } else{

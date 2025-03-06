@@ -1,3 +1,19 @@
+'''
+
+I've been trying to get the best dataset I could, with as much information as possible.
+But most of then didn't have everything I needed, maybe only paritially.
+
+And then I found the dataset that had a lot of cool songs and columns.
+There was a wierd for a first sight column called 'track_id'.
+I thought that it's just a random id for the song, but then I realized that it's a unique id for the song on Spotify.
+
+So I decided to use it to get the images of the songs, release date, spotify url and album type.
+
+This is code I use just for parsing the data from Spotify API and adding it to the dataset.
+Code for spotify API settings and other are in the spoti_test.py file.
+
+'''
+
 # importing the necessary libraries
 import pandas as pd
 from spoti_test import *
