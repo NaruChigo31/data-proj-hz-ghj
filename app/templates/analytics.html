@@ -59,6 +59,18 @@
     
         </div>
 
+        <table id="feedbackTable" border="1">
+            <thead>
+                <tr>
+                    <th>Genre</th>
+                    <th>Rate</th>
+                    <th>Age</th>
+                    <th>Tags</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
     </main>
 
 </body>
@@ -69,7 +81,12 @@
 
     // Your web app's Firebase configuration
     const firebaseConfig = {
-
+        apiKey: "",
+        authDomain: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: ""
     };
 
     // Initialize Firebase
@@ -116,9 +133,34 @@
         Plotly.newPlot('graph', data, layout);
     }
 
+    let allRows
+
+    function populateTable(data) {
+        let tableBody = document.querySelector("#feedbackTable tbody");
+        tableBody.innerHTML = ""; // Clear existing rows
+
+        for (let key in data) {
+            let row = data[key];
+            let newRow = document.createElement("tr");
+
+            newRow.innerHTML = `
+                <td>${row.genre}</td>
+                <td>${row.rate}</td>
+                <td>${row.age ? "Above 18" : "Under 18"}</td>
+                <td>${row.tags ? row.tags.join(", ") : "N/A"}</td>
+            `;
+
+            tableBody.appendChild(newRow);
+        }
+    }
+
+
     function GetAllData(){
         get(child(ref(db), 'feedbacks'))
         .then((snapshot) => {
+
+            console.log(snapshot.val())
+            populateTable(snapshot.val())
             snapshot.forEach((childSnapshot) => {
                 let ageText = "Under"
                 if (childSnapshot.val()["age"] == true) {
@@ -166,7 +208,7 @@
                 document.getElementById("yourGenre").innerHTML = yourFeedback["genre"]
                 document.getElementById("yourRate").innerHTML = yourFeedback["rate"]
                 document.getElementById("yourAge").innerHTML = yourFeedback["age"] ? "Above 18" : "Under 18"
-                document.getElementById("yourTags").innerHTML = yourFeedback["tags"]
+                document.getElementById("yourTags").innerHTML = yourFeedback["tags"].join(", ")
             } else {
                 console.log("No data available");
                 console.log(document.getElementById("yourGenre"))
